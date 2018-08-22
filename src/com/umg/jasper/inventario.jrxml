@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3c28101c-6d7a-42d8-b8af-4b9f4ae1149a">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="58"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#002147" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#C8E8F5"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT a.*, b.consumidos FROM
+        (select p.idproducto,
+                p.nombre,
+                c.nombre as categoria,
+                p.costo,
+                p.precio,
+                p.stock
+        from productos p inner join categorias c on 
+        (p.idcategoria = c.idcategoria)
+        ) a INNER JOIN
+        (SELECT fd.idproducto, 
+                SUM(fd.cantidad) as consumidos from facturas_detalle fd
+        where fd.idproducto in (SELECT idproducto from productos)
+        GROUP BY fd.idproducto) b on
+(a.idproducto = b.idproducto)]]>
+	</queryString>
+	<field name="IDPRODUCTO" class="java.math.BigDecimal"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="CATEGORIA" class="java.lang.String"/>
+	<field name="COSTO" class="java.math.BigDecimal"/>
+	<field name="PRECIO" class="java.math.BigDecimal"/>
+	<field name="STOCK" class="java.math.BigDecimal"/>
+	<field name="CONSUMIDOS" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement x="183" y="99" width="383" height="31" uuid="2125f538-14b5-4f40-ab88-094a52389d9f"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Es un sistema completo, para facturación diseñada para pequeñas y medianas empresas, este software es generico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="209" y="75" width="210" height="22" forecolor="#314A67" uuid="ea69f607-6f63-40a8-b2fa-59027c229fd1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[INVENTARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Title" mode="Transparent" x="169" y="4" width="263" height="47" forecolor="#24374D" backcolor="#FFFFFF" uuid="77cade2d-edcf-49f2-b204-215757e6422d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="36" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SISFACT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="209" y="53" width="210" height="22" forecolor="#314A67" uuid="0582dcd8-60f4-402c-bc15-3ae75a7629a3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Sistemas de Facturación]]></text>
+			</staticText>
+			<image>
+				<reportElement x="19" y="0" width="128" height="128" uuid="0b05fcc9-37e6-44cc-95cb-4cd169184ac4"/>
+				<imageExpression><![CDATA["C:\\Users\\MARIO TOC\\Documents\\OCTAVO SEMESTRE\\8- OCTAVO SEMESTRE\\3- BASE DE DATOS I\\PROYECTO FINAL\\Proyecto BaseDatos\\Proyecto BaseDatos\\src\\com\\umg\\imagenes\\basket-icon (1).png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="4f1e2efb-7d14-4fc8-87f8-78e8d8a96d5f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="61" height="15" forecolor="#002147" uuid="f35681cb-0975-47fd-a6c7-67f284f60ab7"/>
+				<text><![CDATA[CODIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="61" y="0" width="126" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="38c79fdf-505f-4d0d-a730-dcbb0f55e6a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="187" y="0" width="81" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="c0a1bed6-549b-4d64-bf23-482dccc80ae4"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[CATEGORIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="268" y="0" width="73" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="1d2cf3d9-32b5-4c2a-a3b6-2dc53754fc5b"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[COSTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="341" y="0" width="74" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="c325d436-48fb-446f-a828-d175a06fab09"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="415" y="0" width="59" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="cc3675e4-dc44-4413-b562-b6936de537f1"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[STOCK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" mode="Transparent" x="474" y="0" width="79" height="15" forecolor="#002147" backcolor="#FFFFFF" uuid="ae186c6f-f190-4fda-927a-b4451b4752df"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[CONSUMIDOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="2d7024d9-0927-4d8d-9da6-746758fe4e42"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="61" height="15" uuid="7bc0b54d-0ac5-4e59-99fe-c04636981d16"/>
+					<textFieldExpression><![CDATA[$F{IDPRODUCTO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="61" y="0" width="126" height="15" uuid="8f1c6e45-82ac-4350-92d3-5a8133aea3bb"/>
+					<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="187" y="0" width="81" height="15" uuid="66503e18-cac9-40ba-b024-5c73f1ba3df2"/>
+					<textFieldExpression><![CDATA[$F{CATEGORIA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="268" y="0" width="73" height="15" uuid="dd5e154a-a45c-4303-84be-4a946afbd612"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{COSTO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="341" y="0" width="74" height="15" uuid="4fe9c80c-ba85-408a-8432-f428a4ce2cf5"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{PRECIO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="415" y="0" width="59" height="15" uuid="0e5511f6-a8d0-49a3-b603-20d0059785f7"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{STOCK}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="474" y="0" width="79" height="15" uuid="4489bb03-69e4-49d1-b38f-d0b25e6deb9c"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{CONSUMIDOS}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="12a7773c-17e8-4ce3-8ac0-9c2ef6635b3f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#6386B3" uuid="b65c875c-650c-4634-a2de-47b2b3ef311a"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="8d511e28-a9a0-40f0-82dd-bac253be47c9"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="075a26cf-1b0a-4e6f-b092-7f741bd08bda"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="17338f1f-b924-4fe8-97c5-d7fc9bbef9a0"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b210590-c9b9-4509-bc92-3c635174eab7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT f.idfactura, 
+       f.fecha, 
+       SUM(fd.cantidad * fd.precio) as totalventa,
+       SUM(fd.cantidad * p.costo) as totalcosto,
+       SUM(fd.cantidad * fd.precio)-SUM(fd.cantidad * p.costo) as ganancia
+       from facturas f inner join 
+facturas_detalle fd on
+(f.idfactura = fd.idfactura) inner join
+productos p on
+(fd.idproducto = p.idproducto)
+GROUP BY f.idfactura, f.fecha
+ORDER BY f.idfactura]]>
+	</queryString>
+	<field name="IDFACTURA" class="java.math.BigDecimal"/>
+	<field name="FECHA" class="java.sql.Timestamp"/>
+	<field name="TOTALVENTA" class="java.math.BigDecimal"/>
+	<field name="TOTALCOSTO" class="java.math.BigDecimal"/>
+	<field name="GANANCIA" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="73" y="15" width="361" height="54" uuid="df5ffdf6-de22-49ea-a40c-f27b06343c27"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[GRAFICA DE GANACIAS  POR  FECHAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="303" splitType="Stretch">
+			<stackedBar3DChart>
+				<chart>
+					<reportElement x="17" y="17" width="509" height="236" uuid="d0cb52f2-0a5e-4ce5-b07a-a4f2f344056d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{FECHA}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{TOTALCOSTO}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{GANANCIA}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</summary>
+</jasperReport>

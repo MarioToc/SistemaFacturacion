@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5236f7e3-40bb-415c-9a5b-af5ccff67bea">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT f.idfactura, 
+       f.fecha, 
+       SUM(fd.cantidad * fd.precio) as totalventa,
+       SUM(fd.cantidad * p.costo) as totalcosto,
+       SUM(fd.cantidad * fd.precio)-SUM(fd.cantidad * p.costo) as ganancia
+       from facturas f inner join 
+facturas_detalle fd on
+(f.idfactura = fd.idfactura) inner join
+productos p on
+(fd.idproducto = p.idproducto)
+GROUP BY f.idfactura, f.fecha
+ORDER BY f.idfactura]]>
+	</queryString>
+	<field name="IDFACTURA" class="java.math.BigDecimal"/>
+	<field name="FECHA" class="java.sql.Timestamp"/>
+	<field name="TOTALVENTA" class="java.math.BigDecimal"/>
+	<field name="TOTALCOSTO" class="java.math.BigDecimal"/>
+	<field name="GANANCIA" class="java.math.BigDecimal"/>
+	<variable name="GANANCIA_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{GANANCIA}]]></variableExpression>
+	</variable>
+	<variable name="TOTALVENTA_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTALVENTA}]]></variableExpression>
+	</variable>
+	<variable name="TOTALCOSTO_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTALCOSTO}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" mode="Transparent" x="155" y="0" width="263" height="47" forecolor="#24374D" backcolor="#FFFFFF" uuid="cf4bfae4-40bc-46fe-80bb-bc19922c5623"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Arial" size="36" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SISFACT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="169" y="95" width="383" height="31" uuid="28c1f320-e51f-4e8f-8c7d-9f50dba8e302"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Es un sistema completo, para facturación diseñada para pequeñas y medianas empresas, este software es generico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="195" y="71" width="210" height="22" forecolor="#314A67" uuid="6efa6240-8641-4382-9b11-40245a1a1dfc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Ganancia por Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="195" y="49" width="210" height="22" forecolor="#314A67" uuid="c478e4ba-298c-4c5c-ad30-ee7964bd8051"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Sistemas de Facturación]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="128" height="128" uuid="96a117b8-f987-4b7f-86a4-638e36e01e95"/>
+				<imageExpression><![CDATA["C:\\Users\\MARIO TOC\\Documents\\OCTAVO SEMESTRE\\8- OCTAVO SEMESTRE\\3- BASE DE DATOS I\\PROYECTO FINAL\\Proyecto BaseDatos\\Proyecto BaseDatos\\src\\com\\umg\\imagenes\\basket-icon (1).png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="35da0ed7-b831-4481-8568-3d7f942ac634"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="111" height="15" forecolor="#736343" uuid="5d081dd9-ca37-4084-97dc-63f8c0ef0408"/>
+				<text><![CDATA[NO. FACTURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="111" y="0" width="111" height="15" forecolor="#736343" uuid="57dcc2ce-8f20-486e-b1d6-5d4a4e13267a"/>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="333" y="1" width="111" height="15" forecolor="#736343" uuid="b18f103f-3aaf-4e6b-adb4-7b07e2d4136e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TOTAL VENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="444" y="0" width="111" height="15" forecolor="#736343" uuid="37ec5983-0ea0-416c-ab03-5be970172fe2"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[GANANCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="222" y="1" width="111" height="15" forecolor="#736343" uuid="569b2b22-1953-490a-b383-5eedf8775885"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TOTAL COSTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="473" y="1" width="100" height="20" uuid="b3ba6e1a-215d-4eb5-8d73-7418c4e6f855"/>
+				<text><![CDATA[GANANCIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a6c87468-f4e2-45a2-be88-6d75fbf10715"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="111" height="15" uuid="c87713ca-8de7-451f-9b52-a40154081713"/>
+					<textFieldExpression><![CDATA[$F{IDFACTURA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="111" y="0" width="111" height="15" uuid="a8b71c86-5e57-4dbc-bc2b-5cc549339c0f"/>
+					<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false">
+					<reportElement style="Detail" mode="Transparent" x="333" y="0" width="111" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="13599996-d366-4f0b-b7cb-904339026960"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TOTALVENTA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00">
+					<reportElement style="Detail" x="444" y="0" width="111" height="15" uuid="4c29f96c-3148-4f22-95fb-ad24ac6eb6f3"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{GANANCIA}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement style="Detail" mode="Transparent" x="222" y="0" width="111" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="d86e1814-3fa7-4914-81bd-68ad31bbe494"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALCOSTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="50c9feae-d0e4-43b4-b69a-d15c7abdea41"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="444" y="3" width="108" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="05cb6309-cd4c-4d14-8602-7830d888a5a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GANANCIA_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="333" y="4" width="111" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="52debb7a-d26e-4975-ace2-8e82cc84d31d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTALVENTA_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="222" y="3" width="111" height="20" uuid="aa16b454-a980-446e-867f-c5b752b49a86"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTALCOSTO_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="b0a90b68-c0e6-4d2e-89b0-6b51de056ddd"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="5c84b8c3-b4e4-46b9-9476-b426249158f3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="d31eb806-b415-40b9-9b3d-a6926779b4e0"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="6dcdc2eb-c9be-48b2-98ac-a5c5abe47eeb"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
